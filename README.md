@@ -5,7 +5,7 @@
 # Use
 
 ```
-const Queue = require('multi-key-queue')
+const Queue = require('multikey-queue')
 const path = require('path')
 
 const queue = new Queue({ directory: path.join(__dirname, `./tmp`) })
