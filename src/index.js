@@ -20,14 +20,14 @@ class Queue {
       .createHash('sha256')
       .update(value)
       .digest('hex')
-    await fs.promises.writeFile(this.getPath(key, hash), value)
+    await fs.promises.writeFile(this.getPath(key, hash), value, 'utf8')
     this.store.union(key, hash)
   }
   async getOne (key) {
     const keyHashes = this.store.get(key)
     if (keyHashes && keyHashes.length > 0) {
       const hash = keyHashes[0]
-      const value = await fs.promises.readFile(this.getPath(key, hash))
+      const value = await fs.promises.readFile(this.getPath(key, hash), 'utf8')
       return { key, value, hash }
     }
   }
