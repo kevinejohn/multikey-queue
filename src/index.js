@@ -4,8 +4,9 @@ const DataStore = require('data-store')
 const crypto = require('crypto')
 
 class Queue {
-  constructor ({ directory }) {
+  constructor ({ directory, keepFiles = false }) {
     this.directory = directory
+    this.keepFiles = keepFiles
     fs.mkdirSync(directory, { recursive: true })
     this.store = DataStore({
       path: path.join(directory, `./data.json`)
@@ -47,9 +48,11 @@ class Queue {
       } else {
         this.store.set(key, keyHashes)
       }
-      try {
-        await fs.promises.unlink(this.getPath(key, hash))
-      } catch (err) {}
+      if (!this.keepFiles) {
+        try {
+          await fs.promises.unlink(this.getPath(key, hash))
+        } catch (err) {}
+      }
     } else {
       // console.log(`MISSING`, keyHashes, key, hash)
     }
