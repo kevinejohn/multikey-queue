@@ -32,6 +32,10 @@ class Queue {
       return { key, value, hash }
     }
   }
+  count (key) {
+    const keyHashes = this.store.get(key) || []
+    return keyHashes.length
+  }
   async delOne ({ key, value, hash }) {
     if (!hash && value) {
       hash = crypto
